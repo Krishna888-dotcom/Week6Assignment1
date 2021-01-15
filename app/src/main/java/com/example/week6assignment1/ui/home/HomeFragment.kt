@@ -8,24 +8,32 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.week6assignment1.R
+import com.example.week6assignment1.adapter.UserAdapter
+import com.example.week6assignment1.model.User
+import com.example.week6assignment1.model.UserDatabase
+import com.example.week6assignment1.model.students
+import com.example.week6assignment1.ui.dashboard.DashboardFragment
 
 class HomeFragment : Fragment() {
 
-    private lateinit var homeViewModel: HomeViewModel
+  private lateinit var recyclerView: RecyclerView
 
-    override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        homeViewModel =
-                ViewModelProvider(this).get(HomeViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_home, container, false)
-        val textView: TextView = root.findViewById(R.id.text_home)
-        homeViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
-        return root
-    }
+  override fun onCreateView(
+    inflater: LayoutInflater,
+    container: ViewGroup?,
+    savedInstanceState: Bundle?
+  ): View? {
+    val root = inflater.inflate(R.layout.fragment_home, container, false)
+    recyclerView = root.findViewById(R.id.recyclerView)
+    val adapter = UserAdapter(students,container!!.context)
+    recyclerView.layoutManager = LinearLayoutManager(container.context)
+    recyclerView.adapter = adapter
+    return root
+  }
+
+
 }
